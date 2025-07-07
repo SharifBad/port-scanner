@@ -1,1 +1,32 @@
-print("hello world!")
+import socket  # Used to create network connections
+
+# This function scans a single port on a target IP
+def scan_port(ip, port):
+    try:
+        # Create a socket object (like a virtual phone line)
+        s = socket.socket()
+        s.settimeout(1)  # Wait 1 second max for a connection
+        s.connect((ip, port))  # Try to connect to the target IP and port
+        print(f"[+] Port {port} is OPEN")
+        s.close()  # Close the connection
+    except:
+        pass  # If connection fails, just skip (port is closed or filtered)
+
+# This is the main function that runs the scan
+def main():
+    # Ask the user for target IP and port range
+    target = input("Enter target IP address: ")
+    start_port = int(input("Enter start port: "))
+    end_port = int(input("Enter end port: "))
+
+    print(f"\n[~] Scanning {target} from port {start_port} to {end_port}...\n")
+
+    # Loop through the range of ports
+    for port in range(start_port, end_port + 1):
+        scan_port(target, port)  # Call the scan function for each port
+
+    print("\n[+] Scan complete.")
+
+# Python runs this part first
+if __name__ == "__main__":
+    main()
