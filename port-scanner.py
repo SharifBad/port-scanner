@@ -1,4 +1,5 @@
-import socket  # Used to create network connections
+import socket      # Used to create network connections
+import threading   # Used to run multiple scans at the same time (in parallel)
 
 # This function scans a single port on a target IP
 def scan_port(ip, port):
@@ -21,9 +22,18 @@ def main():
 
     print(f"\n[~] Scanning {target} from port {start_port} to {end_port}...\n")
 
+    threads = []  # This list will store all thread objects
+
     # Loop through the range of ports
     for port in range(start_port, end_port + 1):
-        scan_port(target, port)  # Call the scan function for each port
+        # For each port, create a thread to scan it in parallel
+        thread = threading.Thread(target=scan_port, args=(target, port))
+        thread.start()  # Start the thread (begin scanning)
+        threads.append(thread)  # Save the thread so we can wait for it later
+
+    # Wait for all threads to finish before ending the program
+    for thread in threads:
+        thread.join()
 
     print("\n[+] Scan complete.")
 
