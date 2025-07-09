@@ -8,6 +8,8 @@ It scans a range of ports on a target IP address and tells you which ones are op
 - Scans a range of ports on any IP address
 - Displays open ports in the terminal
 - Uses Python's built-in `socket` module
+- Uses threading scan in a parallel and fast way for all port
+- Uses banner grabbing to read some info from the open ports
 - Beginner-friendly and well-commented
 
 ## Getting Started

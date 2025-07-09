@@ -8,7 +8,15 @@ def scan_port(ip, port):
         s = socket.socket()
         s.settimeout(1)  # Wait 1 second max for a connection
         s.connect((ip, port))  # Try to connect to the target IP and port
-        print(f"[+] Port {port} is OPEN")
+
+        # Try to receive a banner (welcome message)
+        try:
+            banner = s.recv(1024).decode().strip()
+            print(f"[+] Port {port} is OPEN — Service: {banner}")
+        except:
+            # If no banner is sent, just say it's open
+            print(f"[+] Port {port} is OPEN — No banner received")
+
         s.close()  # Close the connection
     except:
         pass  # If connection fails, just skip (port is closed or filtered)
